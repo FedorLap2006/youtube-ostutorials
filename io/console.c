@@ -72,7 +72,9 @@ void print_text(const char *s){
 		}
 		// Табуляция
 		if(*s == '\t'){
-			cursor_pos += tab_width - cursor_pos % tab_width;
+			char tab[] = "              "
+			tab[tab_width - cursor_pos % tab_width] = '\0';
+			print_text(tab);
 			s++;
 			continue;
 		}
@@ -126,7 +128,9 @@ void printf(const char *formated_string, ...){
 		}
 		// Табуляция
 		if(*s == '\t'){
-			cursor_pos += tab_width - cursor_pos % tab_width;
+			char tab[] = "              "
+			tab[tab_width - cursor_pos % tab_width] = '\0';
+			print_text(tab);
 			s++;
 			continue;
 		}
