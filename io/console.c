@@ -1,6 +1,6 @@
-#include <depthos/console.h>
-#include <depthos/ports.h>
-#include <depthos/stdarg.h>
+#include <yot/console.h>
+#include <yot/ports.h>
+#include <yot/stdarg.h>
 
 unsigned short *video_memory = (unsigned short *)0x000B8000;
 char tab_width = 8; // Размер табуляции
@@ -72,7 +72,7 @@ void print_text(const char *s){
 		}
 		// Табуляция
 		if(*s == '\t'){
-			char tab[] = "              "
+			char tab[] = "              ";
 			tab[tab_width - cursor_pos % tab_width] = '\0';
 			print_text(tab);
 			s++;
@@ -128,7 +128,7 @@ void printf(const char *formated_string, ...){
 		}
 		// Табуляция
 		if(*s == '\t'){
-			char tab[] = "              "
+			char tab[] = "              ";
 			tab[tab_width - cursor_pos % tab_width] = '\0';
 			print_text(tab);
 			s++;

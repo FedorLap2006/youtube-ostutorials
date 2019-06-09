@@ -1,4 +1,4 @@
-#include <depthos/ports.h>
+#include <yot/ports.h>
 
 void outb(unsigned short port, unsigned char value) {
   __asm volatile ("outb %1, %0" : : "dN" (port), "a" (value));

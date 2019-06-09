@@ -24,7 +24,7 @@
 #define CONSOLE_WIDTH 80 // Ширина экрана в символах
 #define CONSOLE_HEIGHT 25 // Высота экрана в символах
 #define CONSOLE_SIZE (CONSOLE_WIDTH * CONSOLE_HEIGHT) // Сколько символов может поместиться на экране
-#define CONSOLE_MAX_OUTPUT_SIZE 500 // Для предотвращения бесконечной печати текста
+#define CONSOLE_MAX_OUTPUT_SIZE 10000 // Для предотвращения бесконечной печати текста
 
 
 
