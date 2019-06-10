@@ -3,6 +3,8 @@
 #include <yot/stdarg.h>
 
 unsigned short *video_memory = (unsigned short *)0x000B8000;
+char space_line[] = "                                                                                ";
+char space_line_width = 80;
 char tab_width = 8; // Размер табуляции
 short cursor_pos = 0; // Позиция курсора на экране
 short console_color = 0x0F00; // Цвет фона и символа печатаемого на экране
@@ -49,6 +51,17 @@ void set_cursor_pos(short pos){
 	outb(0x3D5, cursor_pos);
 }
 
+// Печатает строку на экране как есть
+void print_as_is(const char *s){
+	short err_stop = CONSOLE_MAX_OUTPUT_SIZE; // На случай, если будет подана строка без нуль-терминатора
+	while(err_stop-- && *s){
+		// Вывод символа на экран
+		video_memory[cursor_pos] = console_color | *s;
+		cursor_pos++;
+		s++;
+	}
+}
+
 // Печататет простой текст на экране
 void print_text(const char *s){
 	short last_line = CONSOLE_SIZE - 1; // Позиция, определяющая необходимость прокрутки текста
@@ -65,16 +78,13 @@ void print_text(const char *s){
 		}
 		// Переход на новую строку
 		if(*s == '\n'){
-			cursor_pos = cursor_pos / CONSOLE_WIDTH + 1;
-			cursor_pos = cursor_pos * CONSOLE_WIDTH;
+			print_as_is(&space_line[cursor_pos % CONSOLE_WIDTH]);
 			s++;
 			continue;
 		}
 		// Табуляция
 		if(*s == '\t'){
-			char tab[] = "              ";
-			tab[tab_width - cursor_pos % tab_width] = '\0';
-			print_text(tab);
+			print_as_is(&space_line[space_line_width - cursor_pos % tab_width]);
 			s++;
 			continue;
 		}
@@ -121,16 +131,13 @@ void printf(const char *formated_string, ...){
 		}
 		// Переход на новую строку
 		if(*s == '\n'){
-			cursor_pos = cursor_pos / CONSOLE_WIDTH + 1;
-			cursor_pos = cursor_pos * CONSOLE_WIDTH;
+			print_as_is(&space_line[cursor_pos % CONSOLE_WIDTH]);
 			s++;
 			continue;
 		}
 		// Табуляция
 		if(*s == '\t'){
-			char tab[] = "              ";
-			tab[tab_width - cursor_pos % tab_width] = '\0';
-			print_text(tab);
+			print_as_is(&space_line[space_line_width - tab_width + cursor_pos % tab_width]);
 			s++;
 			continue;
 		}
